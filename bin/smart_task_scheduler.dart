@@ -3,7 +3,8 @@ import 'dart:io';
 Future<void> download(String fileType, int seconds) async
 {
   print('Downloading $fileType...');
-
+  print('Estimated time: $seconds seconds');
+  print('\n');
   await Future.delayed(Duration(seconds: seconds));
 
   print('$fileType Downloaded Successfully.');
@@ -11,7 +12,7 @@ Future<void> download(String fileType, int seconds) async
 
 void main() async
 {
-print('Application started');
+print('\nApplication started\n');
 bool isRunning = true;
 do
 { 
