@@ -11,39 +11,44 @@ Future<void> download(String fileType) async
 
 void main() async
 {
-  print('Application started');
-  
+print('Application started');
+bool isRunning = true;
+do
+{ 
   print('''
-==============================
-     Smart Task Scheduler
-==============================
+  ==============================
+      Smart Task Scheduler
+  ==============================
 
-1. Download Image
-2. Download Video
-3. Download PDF
-4. Exit
+  1. Download Image
+  2. Download Video
+  3. Download PDF
+  4. Exit
 
-Enter your choice:''');
+  Enter your choice:''');
 
-int choice = int.parse(stdin.readLineSync() ?? '0');
+  int choice = int.parse(stdin.readLineSync() ?? '0');
 
-switch(choice)
-{
-  case 1:
-    await download("Image");
-    break;
-  case 2:
-    await download("Video");
-    break;
-  case 3:
-    await download("PDF");
-    break;
-  case 4:
-    print("Thank you for using Smart Task Scheduler.");
-    break;
+  switch(choice)
+  {
+    case 1:
+      await download("Image");
+      break;
+    case 2:
+      await download("Video");
+      break;
+    case 3:
+      await download("PDF");
+      break;
+    case 4:
+      print("Thank you for using Smart Task Scheduler.");
+      isRunning = false;
+      break;
 
-  default:
-    print('Invalid input');
-}
-  print('Application finished');
+    default:
+      print('Invalid input');
+  }
+}while(isRunning);
+
+print('Application finished');
 }
