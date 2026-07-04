@@ -1,10 +1,10 @@
 import 'dart:io';
 
-Future<void> download(String fileType) async
+Future<void> download(String fileType, int seconds) async
 {
   print('Downloading $fileType...');
 
-  await Future.delayed(Duration(seconds: 5));
+  await Future.delayed(Duration(seconds: seconds));
 
   print('$fileType Downloaded Successfully.');
 }
@@ -32,13 +32,13 @@ do
   switch(choice)
   {
     case 1:
-      await download("Image");
+      await download("Image",2);
       break;
     case 2:
-      await download("Video");
+      await download("Video",8);
       break;
     case 3:
-      await download("PDF");
+      await download("PDF",4);
       break;
     case 4:
       print("Thank you for using Smart Task Scheduler.");
