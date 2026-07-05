@@ -32,28 +32,34 @@
 
     Enter your choice:''');
 
-    int choice = int.parse(stdin.readLineSync() ?? '0');
+    String input = stdin.readLineSync() ?? "";
+    List<String> choices = input.split(",");
 
-    switch(choice)
+    for(int i = 0; i < choices.length; i++)
     {
-      case 1:
-        await download("Image",2);
-        break;
-      case 2:
-        await download("Video",8);
-        break;
-      case 3:
-        await download("PDF",4);
-        break;
-      case 4:
-        print("Thank you for using Smart Task Scheduler.");
-        isRunning = false;
-        break;
+      int choice = int.parse(choices[i].trim());
 
-      default:
-        print('Invalid input');
+        switch(choice)
+      {
+        case 1:
+          await download("Image",2);
+          break;
+        case 2:
+          await download("Video",8);
+          break;
+        case 3:
+          await download("PDF",4);
+          break;
+        case 4:
+          print("Thank you for using Smart Task Scheduler.");
+          isRunning = false;
+          break;
+
+        default:
+          print('Invalid input');
+      }
     }
   }while(isRunning);
 
   print('Application finished');
-  }
+}
