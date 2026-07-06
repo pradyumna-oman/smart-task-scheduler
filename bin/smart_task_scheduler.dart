@@ -26,6 +26,36 @@
     print('$fileType Downloaded Successfully.\n');
   }
 
+  bool validateChoices(List<String> choices)
+  {
+    for (String item in choices)
+    {
+      if(item.trim().isEmpty)
+      {
+        print("Empty values are not allowed.");
+        print('Example: 1,2,3');
+        return false;
+      }
+    }
+    
+    if(choices.contains("4") && choices.length > 1)
+    {
+      print('Exit cannot be combined with download options.\n');
+      return false;
+    }
+  
+    for(int i = 0; i < choices.length; i++)
+    {
+      int? choice = int.tryParse(choices[i].trim());
+      if(choice == null || choice < 1 || choice > 4)
+      {
+        print('Invalid input. Please enter numbers between 1 and 4.');
+        return false;
+      }
+    }
+    return true;
+  }
+
   void main() async
   {
   print('\nApplication started\n');
@@ -42,21 +72,30 @@
 3. Download PDF
 4. Exit
 
+Examples:
+Single:   2
+Multiple: 1,2,3
+
 Enter your choice:''');
 
     String input = stdin.readLineSync() ?? "";
+    if(input.trim().isEmpty)
+    {
+      print("Input cannot be empty.");
+      continue;
+    }
     List<String> choices = input.split(",");
+    
     List<Future<void>> downloads = [];
 
-    if(choices.contains("4") && choices.length > 1)
+    if(!validateChoices(choices)) 
     {
-      print('Exit cannot be combined with download options.\n');
       continue;
     }
 
     for(int i = 0; i < choices.length; i++)
     {
-      int choice = int.parse(choices[i].trim());
+      int? choice = int.tryParse(choices[i].trim());
 
         switch(choice)
       {
@@ -75,7 +114,7 @@ Enter your choice:''');
           break;
 
         default:
-          print('Invalid input');
+          print('Invalid input\n');
       }
     }
     await Future.wait(downloads);
