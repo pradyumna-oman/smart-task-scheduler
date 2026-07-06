@@ -48,6 +48,12 @@ Enter your choice:''');
     List<String> choices = input.split(",");
     List<Future<void>> downloads = [];
 
+    if(choices.contains("4") && choices.length > 1)
+    {
+      print('Exit cannot be combined with download options.\n');
+      continue;
+    }
+
     for(int i = 0; i < choices.length; i++)
     {
       int choice = int.parse(choices[i].trim());
