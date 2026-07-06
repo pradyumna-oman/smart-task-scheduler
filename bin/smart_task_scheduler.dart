@@ -4,14 +4,26 @@
   {
     int milliSeconds = (seconds * 1000) ~/ 5;
     print('Downloading $fileType...');
-    print('Estimated time: $seconds seconds');
+    print('Estimated time: $seconds seconds\n');
     for(int progress = 20; progress <= 100; progress += 20)
     {
-      print('$progress%');
+      int filled = progress ~/ 5;
+      String bar = "";
+      int remaining = 20 - filled;
+      String dash = "";
+      for(int i = 0; i < filled; i++)
+      {
+        bar = bar + "#";
+      }
+      for(int i = 0; i < remaining; i++)
+      {
+        dash = dash + "-";
+      }
+      print('[$bar$dash] $progress%\n');
       await Future.delayed(Duration(milliseconds: milliSeconds));
     }
     
-    print('$fileType Downloaded Successfully.');
+    print('$fileType Downloaded Successfully.\n');
   }
 
   void main() async
@@ -21,16 +33,16 @@
   do
   { 
     print('''
-    ==============================
-        Smart Task Scheduler
-    ==============================
+==============================
+    Smart Task Scheduler
+==============================
 
-    1. Download Image
-    2. Download Video
-    3. Download PDF
-    4. Exit
+1. Download Image
+2. Download Video
+3. Download PDF
+4. Exit
 
-    Enter your choice:''');
+Enter your choice:''');
 
     String input = stdin.readLineSync() ?? "";
     List<String> choices = input.split(",");
