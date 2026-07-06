@@ -19,10 +19,10 @@
       {
         dash = dash + "-";
       }
-      print('[$bar$dash] $progress%\n');
       await Future.delayed(Duration(milliseconds: milliSeconds));
+      print('[$bar$dash] $progress% $fileType');
     }
-    
+    print("");
     print('$fileType Downloaded Successfully.\n');
   }
 
@@ -46,6 +46,7 @@ Enter your choice:''');
 
     String input = stdin.readLineSync() ?? "";
     List<String> choices = input.split(",");
+    List<Future<void>> downloads = [];
 
     for(int i = 0; i < choices.length; i++)
     {
@@ -54,13 +55,13 @@ Enter your choice:''');
         switch(choice)
       {
         case 1:
-          await download("Image",2);
+          downloads.add(download("Image",2));
           break;
         case 2:
-          await download("Video",8);
+          downloads.add(download("Video",8));
           break;
         case 3:
-          await download("PDF",4);
+          downloads.add(download("PDF",4));
           break;
         case 4:
           print("Thank you for using Smart Task Scheduler.");
@@ -71,6 +72,7 @@ Enter your choice:''');
           print('Invalid input');
       }
     }
+    await Future.wait(downloads);
   }while(isRunning);
 
   print('Application finished');
