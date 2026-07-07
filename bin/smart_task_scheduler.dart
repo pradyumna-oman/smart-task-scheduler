@@ -1,6 +1,6 @@
-  import 'dart:io';
+import 'dart:io';
 
-  Future<void> download(String fileType, int seconds) async
+  Future<void> download(String fileType, int seconds, List<String> history) async
   {
     int milliSeconds = (seconds * 1000) ~/ 5;
     print('Downloading $fileType...');
@@ -24,6 +24,7 @@
     }
     print("");
     print('$fileType Downloaded Successfully.\n');
+    history.add('$fileType - Completed - ${seconds}s');
   }
 
   bool validateChoices(List<String> choices)
@@ -33,7 +34,7 @@
       if(item.trim().isEmpty)
       {
         print("Empty values are not allowed.");
-        print('Example: 1,2,3');
+        print('Example: 1,2,3\n');
         return false;
       }
     }
@@ -47,9 +48,9 @@
     for(int i = 0; i < choices.length; i++)
     {
       int? choice = int.tryParse(choices[i].trim());
-      if(choice == null || choice < 1 || choice > 4)
+      if(choice == null || choice < 1 || choice > 5)
       {
-        print('Invalid input. Please enter numbers between 1 and 4.');
+        print('Invalid input. Please enter numbers between 1 and 5.');
         return false;
       }
     }
@@ -60,6 +61,7 @@
   {
   print('\nApplication started\n');
   bool isRunning = true;
+  List<String> history = [];
   do
   { 
     print('''
@@ -71,6 +73,7 @@
 2. Download Video
 3. Download PDF
 4. Exit
+5. View Download History
 
 Examples:
 Single:   2
@@ -81,7 +84,7 @@ Enter your choice:''');
     String input = stdin.readLineSync() ?? "";
     if(input.trim().isEmpty)
     {
-      print("Input cannot be empty.");
+      print("Input cannot be empty.\n");
       continue;
     }
     List<String> choices = input.split(",");
@@ -100,17 +103,34 @@ Enter your choice:''');
         switch(choice)
       {
         case 1:
-          downloads.add(download("Image",2));
+          downloads.add(download("Image",2,history));
           break;
         case 2:
-          downloads.add(download("Video",8));
+          downloads.add(download("Video",8,history));
           break;
         case 3:
-          downloads.add(download("PDF",4));
+          downloads.add(download("PDF",4,history));
           break;
         case 4:
           print("Thank you for using Smart Task Scheduler.");
           isRunning = false;
+          break;
+        case 5:
+          if(history.isEmpty)
+          {
+            print('========== Download History ==========');
+            print('No downloads yet.');
+            print('======================================');
+          }
+          else 
+          {
+            print('========== Download History ==========');
+            for(int i = 0; i < history.length; i++)
+            {
+              print('${i + 1}. ${history[i]}'); 
+            }
+            print('======================================');
+          }
           break;
 
         default:
