@@ -26,7 +26,7 @@ class Download
     return '$fileType | $status | $date | $time';
   }
 }
-  Future<void> download(String fileType, int seconds, List<Download> history) async
+  Future<void> download(String fileType, int seconds, List<Download> history, File historyFile) async
   {
     int milliSeconds = (seconds * 1000) ~/ 5;
     print('Downloading $fileType...');
@@ -52,6 +52,7 @@ class Download
     print('$fileType Downloaded Successfully.\n');
     Download download = Download(fileType, seconds);
     history.add(download);
+    await historyFile.writeAsString('${download.toString()}\n',mode: FileMode.append);
   }
 
   bool validateChoices(List<String> choices)
@@ -89,6 +90,7 @@ class Download
   print('\nApplication started\n');
   bool isRunning = true;
   List<Download> history = [];
+  File historyFile = File("history.txt");
   do
   { 
     print('''
@@ -130,13 +132,13 @@ Enter your choice:''');
         switch(choice)
       {
         case 1:
-          downloads.add(download("Image",2,history));
+          downloads.add(download("Image",2,history,historyFile));
           break;
         case 2:
-          downloads.add(download("Video",8,history));
+          downloads.add(download("Video",8,history,historyFile));
           break;
         case 3:
-          downloads.add(download("PDF",4,history));
+          downloads.add(download("PDF",4,history,historyFile));
           break;
         case 4:
           print("Thank you for using Smart Task Scheduler.");
