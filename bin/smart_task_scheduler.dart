@@ -1,6 +1,32 @@
 import 'dart:io';
 
-  Future<void> download(String fileType, int seconds, List<String> history) async
+class Download
+{
+  String fileType;
+  int seconds;
+  String status;
+  String date;
+  String time;
+
+  Download(this.fileType, this.seconds)
+    : status = "Completed",
+      date = "",
+      time = ""
+  {
+
+    DateTime now = DateTime.now();
+
+    date = '${now.day}/${now.month}/${now.year}';
+    time = '${now.hour}:${now.minute}:${now.second}';
+  }
+
+  @override
+  String toString()
+  {
+    return '$fileType | $status | $date | $time';
+  }
+}
+  Future<void> download(String fileType, int seconds, List<Download> history) async
   {
     int milliSeconds = (seconds * 1000) ~/ 5;
     print('Downloading $fileType...');
@@ -24,7 +50,8 @@ import 'dart:io';
     }
     print("");
     print('$fileType Downloaded Successfully.\n');
-    history.add('$fileType - Completed - ${seconds}s');
+    Download download = Download(fileType, seconds);
+    history.add(download);
   }
 
   bool validateChoices(List<String> choices)
@@ -61,7 +88,7 @@ import 'dart:io';
   {
   print('\nApplication started\n');
   bool isRunning = true;
-  List<String> history = [];
+  List<Download> history = [];
   do
   { 
     print('''
